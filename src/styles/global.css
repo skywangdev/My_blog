@@ -5,11 +5,22 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @layer base {
+  html {
+    background:
+      radial-gradient(circle at 15% 0%, rgb(232 33 39 / 0.04), transparent 24rem),
+      linear-gradient(135deg, var(--background), var(--muted));
+  }
+
   * {
     @apply border-border outline-accent/75;
     scrollbar-width: auto;
     scrollbar-color: var(--color-muted) transparent;
   }
+
+  body {
+    background: var(--background);
+  }
+
   a,
   button {
     @apply outline-accent outline-offset-1 focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;

@@ -67,7 +67,7 @@ const t = useTranslations(locale);
       if (import.meta.env.DEV) {
         pageFindSearch.innerHTML = `
             <div class="bg-muted/75 rounded p-4 space-y-4 mb-4">
-              <p><strong>DEV mode Warning! </strong>You need to build the project at least once to see the search results during development.</p>
+              <p><strong>开发模式提示：</strong>需要先至少构建一次项目，开发环境里才能看到搜索结果。</p>
               <code class="block bg-black text-white px-2 py-1 rounded">pnpm run build</code>
             </div>
           `;
@@ -79,6 +79,19 @@ const t = useTranslations(locale);
         bundlePath,
         showImages: false,
         showSubResults: true,
+        translations: {
+          placeholder: "搜索文章",
+          clear_search: "清除搜索",
+          load_more: "加载更多",
+          search_label: "搜索本站",
+          filters_label: "筛选",
+          zero_results: "没有找到 [SEARCH_TERM] 的结果",
+          one_result: "找到 1 条关于 [SEARCH_TERM] 的结果",
+          many_results: "找到 [COUNT] 条关于 [SEARCH_TERM] 的结果",
+          alt_search: "没有找到 [SEARCH_TERM]，显示 [DIFFERENT_TERM] 的结果",
+          search_suggestion: "没有找到 [SEARCH_TERM]，要搜索 [DIFFERENT_TERM] 吗？",
+          searching: "搜索中...",
+        },
         processTerm: function (term: string) {
           params.set("q", term); // Update the `q` parameter in the URL
           history.replaceState(history.state, "", "?" + params.toString()); // Push the new URL without reloading

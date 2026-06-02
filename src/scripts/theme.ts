@@ -1,6 +1,10 @@
 const THEME_KEY = "theme";
 const LIGHT = "light";
 const DARK = "dark";
+const THEME_LABELS: Record<string, string> = {
+  [LIGHT]: "当前主题：浅色",
+  [DARK]: "当前主题：深色",
+};
 
 function getPreferredTheme(): string {
   const stored = localStorage.getItem(THEME_KEY);
@@ -22,7 +26,9 @@ function persist(): void {
 
 function reflect(): void {
   document.firstElementChild?.setAttribute("data-theme", themeValue);
-  document.querySelector("#theme-btn")?.setAttribute("aria-label", themeValue);
+  document
+    .querySelector("#theme-btn")
+    ?.setAttribute("aria-label", THEME_LABELS[themeValue] ?? "切换主题");
 
   // Fill <meta name="theme-color"> with the computed background colour so
   // Android's browser chrome matches the page background.

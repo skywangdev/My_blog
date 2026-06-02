@@ -9,7 +9,7 @@ export function getFontPathByWeight(
   }
 ): string | undefined {
   const style = options?.style ?? "normal";
-  const format = options?.format ?? "truetype";
+  const format = options?.format ?? "woff2";
 
   for (const font of fonts) {
     if (font.weight === String(weight) && font.style === style) {
