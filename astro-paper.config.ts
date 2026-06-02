@@ -2,11 +2,11 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://astro-paper.pages.dev/",
+    url: "https://blog.skywangdev.com/",
     title: "我的博客",
     description: "一个用 AstroPaper 搭建的中文博客。",
     author: "Sky Wang",
-    profile: "https://satna.ing",
+    profile: "https://photo.skywangdev.com/",
     ogImage: "default-og.jpg",
     lang: "zh-cn",
     timezone: "Asia/Shanghai",
