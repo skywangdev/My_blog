@@ -26,6 +26,7 @@ export default {
     prev: "Prev",
     next: "Next",
     page: "Page",
+    pageUnit: "",
   },
   home: {
     socialLinks: "Social Links",

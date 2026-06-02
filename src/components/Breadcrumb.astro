@@ -38,7 +38,7 @@ if (breadcrumbList[0] === "posts") {
   breadcrumbList.splice(
     0,
     2,
-    `${t.nav.posts} (${t.pagination.page.toLowerCase()} ${breadcrumbList[1] || 1})`
+    `${t.nav.posts} (${t.pagination.page} ${breadcrumbList[1] || 1} ${t.pagination.pageUnit})`
   );
 }
 
@@ -51,7 +51,7 @@ if (breadcrumbList[0] === "tags" && !isNaN(Number(breadcrumbList[2]))) {
     `${decodeSegment(breadcrumbList[1])} ${
       Number(breadcrumbList[2]) === 1
         ? ""
-        : `(${t.pagination.page.toLowerCase()} ${breadcrumbList[2]})`
+        : `(${t.pagination.page} ${breadcrumbList[2]} ${t.pagination.pageUnit})`
     }`
   );
 }

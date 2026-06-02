@@ -1,0 +1,60 @@
+---
+title: "MDX 模板：在文章里使用组件"
+author: "Sky Wang"
+pubDatetime: 2026-06-03T12:00:00Z
+featured: false
+draft: true
+tags:
+  - MDX
+  - 技术
+description: "演示 MDX 文章如何导入 Astro 组件，并混合 Markdown 与组件写法。"
+---
+
+import LinkButton from "@/components/LinkButton.astro";
+import ResponsiveTable from "@/components/ResponsiveTable.astro";
+
+MDX 适合在文章里混合 Markdown 和组件。普通文章用 `.md` 就够了；只有需要组件时再用 `.mdx`。
+
+## Table of contents
+
+## 普通 Markdown 仍然可用
+
+你依然可以正常写段落、列表、引用和代码：
+
+```tsx
+type Post = {
+  title: string;
+  description: string;
+};
+```
+
+## 使用按钮组件
+
+下面这个按钮来自项目里的 `LinkButton.astro`：
+
+<LinkButton href="/posts">
+  查看全部文章
+</LinkButton>
+
+## 使用响应式表格组件
+
+普通 Markdown 表格也可以写，但如果想要更好看的表格，可以导入 `ResponsiveTable`。
+
+<ResponsiveTable variant="striped-minimal">
+
+| 字段 | 是否必填 | 用途 |
+| --- | --- | --- |
+| `title` | 是 | 文章标题 |
+| `pubDatetime` | 是 | 发布时间 |
+| `description` | 是 | 文章摘要 |
+| `tags` | 否 | 标签分类 |
+| `draft` | 否 | 是否草稿 |
+
+</ResponsiveTable>
+
+## MDX 注意事项
+
+- `.mdx` 文件里可以 `import` 组件。
+- HTML/组件标签要闭合，比如 `<LinkButton>...</LinkButton>`。
+- 如果只写普通文章，优先用 `.md`，更简单。
+- 如果构建报错，先检查组件标签是否闭合、路径是否写对。

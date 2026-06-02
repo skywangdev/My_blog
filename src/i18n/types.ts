@@ -24,6 +24,7 @@ export interface UIStrings {
     prev: string;
     next: string;
     page: string;
+    pageUnit: string;
   };
   home: {
     socialLinks: string;
