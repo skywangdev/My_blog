@@ -2,7 +2,6 @@
 title: "FFmpeg 常用命令笔记：合并、压缩、裁剪与转码"
 author: "Sky Wang"
 pubDatetime: 2024-09-17T12:00:00+08:00
-modDatetime: 2026-06-03T01:20:00+08:00
 featured: false
 draft: false
 tags:

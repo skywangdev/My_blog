@@ -2,7 +2,6 @@
 title: "Ubuntu 上配置 PXE 自动安装 Linux 的实践笔记"
 author: "Sky Wang"
 pubDatetime: 2021-07-20T12:00:00+08:00
-modDatetime: 2026-06-03T01:20:00+08:00
 featured: false
 draft: false
 tags:

@@ -2,7 +2,6 @@
 title: "iperf3 网络测速使用笔记"
 author: "Sky Wang"
 pubDatetime: 2025-03-12T12:00:00+08:00
-modDatetime: 2026-06-03T01:20:00+08:00
 featured: false
 draft: false
 tags:
