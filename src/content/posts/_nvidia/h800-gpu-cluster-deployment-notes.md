@@ -1,5 +1,5 @@
 ---
-title: "H800 GPU 集群部署笔记：节点准备、网络、NCCL 与调度前检查"
+title: "H800 集群部署记录：节点、网络、NCCL 和调度前检查"
 author: "Sky Wang"
 pubDatetime: 2024-05-16T09:40:00+08:00
 featured: true
@@ -9,7 +9,7 @@ tags:
   - NVIDIA
   - H800
   - GPU
-description: "记录 H800 GPU 集群部署时的节点准备、网络检查、NCCL 环境变量、容器验证和调度前检查清单。"
+description: "记录 H800 集群交付时需要检查的节点状态、网络、容器、NCCL 参数和调度前确认项。"
 ---
 
 这篇记录 H800 GPU 集群部署时需要关注的几个层面：节点状态、网络、容器、NCCL 和调度前检查。H800 这类集群的问题通常不是某一条命令能解决，而是要把硬件、驱动、网络和任务运行环境放在一起看。
@@ -97,7 +97,7 @@ iperf3 -c <server-ip> -P 8 -t 60
 docker run --rm --gpus all nvidia/cuda:12.1.1-base-ubuntu22.04 nvidia-smi
 ```
 
-如果调度系统使用 containerd，也要确认对应 runtime：
+如果调度系统使用 containerd，也要确认对应运行时：
 
 ```bash
 crictl info | grep -i nvidia

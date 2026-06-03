@@ -1,5 +1,5 @@
 ---
-title: "A100 GPU 节点标准化部署：系统、驱动、容器运行时与基础巡检"
+title: "A100 节点标准化记录：系统、驱动、容器运行时和巡检"
 author: "Sky Wang"
 pubDatetime: 2023-12-07T14:30:00+08:00
 featured: true
@@ -9,7 +9,7 @@ tags:
   - NVIDIA
   - Docker
   - GPU
-description: "整理 A100 GPU 节点标准化部署流程，包括系统基线、驱动确认、NVIDIA Container Toolkit、Docker 验证和巡检脚本。"
+description: "记录 A100 节点标准化时常做的系统基线、驱动确认、NVIDIA Container Toolkit、Docker 验证和巡检脚本。"
 ---
 
 这篇记录 A100 GPU 节点的标准化部署。目标不是把某一台机器装通，而是让一批节点尽量保持一致：系统一致、驱动一致、容器运行时一致、巡检口径一致。
@@ -117,7 +117,7 @@ apt update
 apt install -y nvidia-container-toolkit
 ```
 
-配置 Docker runtime：
+配置 Docker 运行时：
 
 ```bash
 nvidia-ctk runtime configure --runtime=docker

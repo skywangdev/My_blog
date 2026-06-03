@@ -1,5 +1,5 @@
 ---
-title: "服务器 RAID 基础与 Dell 阵列配置实践"
+title: "Dell 服务器 RAID 配置记录：RAID1、RAID5 和常见坑"
 author: "Sky Wang"
 pubDatetime: 2020-07-23T12:00:00+08:00
 featured: false
@@ -8,7 +8,7 @@ tags:
   - 服务器
   - RAID
   - Dell
-description: "把 RAID 基本概念、常见级别选择，以及 Dell 服务器上创建 RAID1 和 RAID5 的操作整理成一篇可查的实践笔记。"
+description: "记录 Dell 服务器上配置 RAID1 和 RAID5 的过程，顺带整理 RAID 级别选择、初始化和容易踩坑的地方。"
 ---
 
 

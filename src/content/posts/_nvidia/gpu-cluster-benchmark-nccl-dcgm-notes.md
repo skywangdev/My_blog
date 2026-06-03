@@ -1,5 +1,5 @@
 ---
-title: "GPU 集群压测技术笔记：nvidia-smi、DCGM、NCCL Tests 与结果判断"
+title: "GPU 集群压测记录：nvidia-smi、DCGM 和 NCCL Tests 怎么看"
 author: "Sky Wang"
 pubDatetime: 2024-11-12T16:10:00+08:00
 featured: false
@@ -9,7 +9,7 @@ tags:
   - NVIDIA
   - GPU
   - 压测
-description: "整理 GPU 集群压测的基本方法，包括单机状态检查、DCGM 诊断、NCCL Tests 通信压测和结果判断。"
+description: "记录 GPU 集群压测时常用的检查命令，包括 nvidia-smi、DCGM、NCCL Tests，以及结果和日志应该怎么看。"
 ---
 
 这篇记录 GPU 集群压测的基本方法。压测不是为了跑一个漂亮数字，而是确认节点、GPU、网络、容器和训练通信链路是否稳定。A100、H800 这类集群尤其要重视 NCCL 和拓扑。

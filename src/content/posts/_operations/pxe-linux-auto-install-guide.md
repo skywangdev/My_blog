@@ -1,5 +1,5 @@
 ---
-title: "Ubuntu 上配置 PXE 自动安装 Linux 的实践笔记"
+title: "在 Ubuntu 上搭 PXE：批量安装 RHEL 和 Kylin"
 author: "Sky Wang"
 pubDatetime: 2021-07-20T12:00:00+08:00
 featured: false
@@ -8,7 +8,7 @@ tags:
   - Linux
   - PXE
   - 自动化部署
-description: "记录在 Ubuntu 20.04 上搭建 PXE 服务，用 DHCP、TFTP、Nginx 和 Kickstart 批量安装 RHEL、Kylin 等系统的过程。"
+description: "记录在 Ubuntu 20.04 上搭建 PXE 服务，用 DHCP、TFTP、Nginx 和 Kickstart 批量安装 RHEL、Kylin 等系统。"
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-title: "iperf3 网络测速使用笔记"
+title: "iperf3 网络测速笔记：TCP、UDP 和结果怎么看"
 author: "Sky Wang"
 pubDatetime: 2025-03-12T12:00:00+08:00
 featured: false
@@ -8,7 +8,7 @@ tags:
   - Linux
   - 网络
   - iperf3
-description: "整理 iperf3 的安装、服务端和客户端测速命令、上传/下载/UDP 测试，以及如何阅读 SUM、receiver 和 Retr 结果。"
+description: "记录 iperf3 的安装、服务端和客户端测速命令、上传/下载/UDP 测试，以及 SUM、receiver 和 Retr 这些字段怎么看。"
 ---
 
 

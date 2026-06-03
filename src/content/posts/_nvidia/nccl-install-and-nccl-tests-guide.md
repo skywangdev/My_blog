@@ -1,7 +1,7 @@
 ---
-title: "从安装 NCCL 到 nccl-tests 单机、多机压测"
+title: "NCCL 测试笔记：安装、编译 nccl-tests 和多机压测"
 author: "Sky Wang"
-pubDatetime: 2026-06-03T12:00:00+08:00
+pubDatetime: 2024-11-03T12:00:00+08:00
 featured: false
 draft: false
 tags:
@@ -10,10 +10,10 @@ tags:
   - CUDA
   - NCCL
   - GPU
-description: "整理 NCCL 从安装到使用的完整流程，包括系统前置检查、Ubuntu 和 RHEL 安装、nccl-tests 编译、单机多卡与多机压测、常用环境变量和常见排障方法。"
+description: "记录 NCCL 安装、nccl-tests 编译、单机多卡和多机压测的常用命令，以及现场排查时常看的环境变量和日志。"
 ---
 
-这篇文章把 GPU 集群里最常见的一类验证工作串起来：安装 NCCL、编译 `nccl-tests`、跑单机多卡和多机压测、看结果、做排障。内容主要参考 NVIDIA 官方 NCCL User Guide、Installation Guide 和 Troubleshooting 文档，再结合日常运维里最常用的命令整理成一份可直接落地的教程。
+这篇记录我平时做 NCCL 测试时常用的一套流程：安装 NCCL、编译 `nccl-tests`、跑单机多卡和多机压测、看输出结果，再根据日志排查问题。内容参考 NVIDIA 官方 NCCL User Guide、Installation Guide 和 Troubleshooting 文档，也结合了一些现场常用命令。
 
 如果你的节点还没有装好驱动、CUDA 和 Fabric Manager，建议先把这一层打稳，再做 NCCL 测试。NCCL 只是通信库，底层驱动、GPU 拓扑、网卡、RDMA、容器共享内存这些前置条件没处理好，测试结果很容易失真。
 
@@ -31,10 +31,10 @@ NCCL 是 NVIDIA 的多 GPU 集合通信库，支持：
 
 官方文档强调，NCCL 是为多 GPU 通信做优化的库，不是完整的并行编程框架。它会根据底层拓扑自动选择通信策略，支持 PCIe、NVLink、InfiniBand Verbs 和 IP sockets。
 
-我们平时说“做 NCCL 测试”，本质上通常是在做两类验证：
+平时说“跑 NCCL”，一般是在看两件事：
 
-- **功能验证：** 通信链路能不能正常初始化和跑通。
-- **性能验证：** 带宽是否稳定，是否明显低于同型号、同拓扑机器的正常水平。
+- 通信能不能正常初始化，测试能不能跑完。
+- 带宽是否稳定，是否明显低于同型号、同拓扑机器的正常水平。
 
 最常用的测试工具不是手写程序，而是 NVIDIA 的 [nccl-tests](https://github.com/NVIDIA/nccl-tests)。
 
@@ -43,12 +43,12 @@ NCCL 是 NVIDIA 的多 GPU 集合通信库，支持：
 开始前至少确认下面几项：
 
 - GPU 驱动正常，`nvidia-smi` 可用。
-- CUDA 环境可用，`nvcc -V` 或容器内 CUDA runtime 正常。
+- CUDA 环境可用，宿主机可以执行 `nvcc -V`，或者容器内能正常调用 CUDA。
 - 单机多卡节点如果是 A100/H800 SXM 这类 NVSwitch 机器，Fabric Manager 已启动。
 - 多机测试时，MPI 已安装。
 - 如果走 IB/RDMA，网卡驱动、OFED 或 RDMA 栈已安装，且现场网络本身可通。
 
-先做最基础的状态检查：
+先看几条最基础的信息：
 
 ```bash
 nvidia-smi
@@ -132,7 +132,7 @@ make CUDA_HOME=/usr/local/cuda NCCL_HOME=/usr/local/nccl-<version>
 
 ## 四、安装后先做库级检查
 
-装完 NCCL，不要立刻跑大压测，先确认库和驱动链路是通的。
+装完 NCCL，不要马上跑大规模压测，先确认库、驱动和 GPU 状态都正常。
 
 建议检查：
 
@@ -152,7 +152,7 @@ ibstat
 ibdev2netdev
 ```
 
-目的很简单：先确认系统层是健康的，再确认 NCCL 层是否正常。
+目的很简单：先确认系统层没问题，再看 NCCL。
 
 ## 五、编译 nccl-tests
 
@@ -232,19 +232,19 @@ make -j MPI=1 NAME_SUFFIX=_mpi MPI_HOME=/path/to/mpi CUDA_HOME=/usr/local/cuda
 这里：
 
 - `-w 10` 表示先做 10 次预热。
-- `-n 50` 表示做 50 次正式测试。
+- `-n 50` 表示正式跑 50 次。
 
 ## 七、看懂 nccl-tests 输出
 
-`all_reduce_perf` 最常看的不是整屏数字，而是下面几类信号：
+`all_reduce_perf` 输出很多，现场一般先看这几项：
 
 - 是否初始化成功。
-- 是否有报错或 hang 住。
+- 是否报错，或者长时间卡住没有输出。
 - `algbw` 是否稳定。
 - `busbw` 是否稳定。
 - `#wrong` 是否为 0。
 
-日常判断里，`busbw` 往往比 `algbw` 更适合看通信效率。`#wrong` 不为 0 时，说明正确性已经有问题，先不要讨论性能。
+日常判断里，`busbw` 往往比 `algbw` 更适合看通信效率。`#wrong` 不为 0 时，说明结果已经不正确，先别讨论性能。
 
 判断结果时建议这样看：
 
@@ -271,7 +271,7 @@ make -j MPI=1 NAME_SUFFIX=_mpi MPI_HOME=/path/to/mpi CUDA_HOME=/usr/local/cuda
 ./build/all_gather_perf -b 8M -e 8G -f 2 -g 8 -w 10 -n 50
 ```
 
-适合补看非归约型集合通信行为。
+可以补看非归约类集合通信的表现。
 
 ### 3. ReduceScatter
 
@@ -279,7 +279,7 @@ make -j MPI=1 NAME_SUFFIX=_mpi MPI_HOME=/path/to/mpi CUDA_HOME=/usr/local/cuda
 ./build/reduce_scatter_perf -b 8M -e 8G -f 2 -g 8 -w 10 -n 50
 ```
 
-很多分布式训练框架会大量用到这一类模式。
+一些分布式训练场景会用到这类通信模式。
 
 ### 4. Broadcast
 
@@ -291,9 +291,9 @@ make -j MPI=1 NAME_SUFFIX=_mpi MPI_HOME=/path/to/mpi CUDA_HOME=/usr/local/cuda
 
 ## 九、多机测试怎么跑
 
-多机测试的关键是先想清楚 rank 布局，而不是先堆环境变量。
+多机测试先想清楚进程和 GPU 怎么对应，不要一上来就堆很多环境变量。
 
-最常见的做法是每个进程绑定 1 张 GPU，也就是：
+常见做法是每个进程用 1 张 GPU，也就是：
 
 - 每台机器 8 卡，就起 8 个进程。
 - `-g 1`，让每个进程只负责 1 张卡。
@@ -355,7 +355,7 @@ mpirun -np 16 -N 8 \
 
 ## 十、常用环境变量速查
 
-官方 User Guide 的环境变量章节很重要，但现场不需要一口气记完。先记最常用的一批就够了。
+官方 User Guide 的环境变量章节很全，但现场不用一次记完。先把最常用的一批掌握住就够了。
 
 | 变量 | 作用 | 常见用法 |
 | --- | --- | --- |
@@ -405,7 +405,7 @@ NCCL_SOCKET_IFNAME==eth0
 
 ## 十一、容器里跑 NCCL 的注意事项
 
-很多人不是在宿主机跑，而是在容器里跑 `nccl-tests`。这时最容易踩的是共享内存和 pinned memory。
+现在很多测试是在容器里跑，不是在宿主机直接跑。这时最容易踩的是共享内存和锁页内存限制。
 
 NVIDIA 官方 Troubleshooting 文档明确提到，Docker 默认共享内存和锁页内存限制通常不够，容易导致 NCCL 初始化失败。
 
@@ -442,9 +442,9 @@ ulimit -l
 
 如果在容器里，优先加大 `--shm-size`，并放开 `memlock`。
 
-### 2. 多机 hang 住或一直卡在 bootstrap
+### 2. 多机测试一直卡住
 
-最常见原因：
+常见原因：
 
 - 选错网卡。
 - 某张网卡虽然是 `UP`，但节点间不通。
@@ -494,16 +494,16 @@ mount | grep sysfs
 
 ## 十三、一套更实用的测试顺序
 
-现场做 NCCL 验证，我更建议按下面顺序走：
+现场做 NCCL 测试，我更建议按下面顺序走：
 
 1. `nvidia-smi`、`nvidia-smi topo -m`、`ibstat` 做静态检查。
-2. 跑单卡 `all_reduce_perf`，确认程序和库没问题。
-3. 跑单机多卡 `all_reduce_perf`，确认机内互联没问题。
+2. 跑单卡 `all_reduce_perf`，确认程序能启动，库也能加载。
+3. 跑单机多卡 `all_reduce_perf`，确认机内互联正常。
 4. 跑单机 `all_gather_perf` 和 `reduce_scatter_perf`，补看不同集合通信模式。
 5. 跑双机小规模测试，确认多机链路和网卡选择无误。
 6. 最后再跑完整规模和更大消息量压测。
 
-这样做的好处是，一旦出问题，你能更快定位是在：
+这样做的好处是，一旦出问题，可以更快判断大概卡在哪一层：
 
 - GPU 本身
 - 机内 NVLink / PCIe
@@ -570,6 +570,6 @@ nvidia-smi topo -m
 
 ## 十六、小结
 
-NCCL 测试的关键不是把命令跑出来，而是把链路分层看清楚。先确认驱动、CUDA、拓扑、网卡和共享内存，再做 `nccl-tests`，结果会更可靠。
+NCCL 测试的关键不是把命令抄出来，而是把链路分层看清楚。先确认驱动、CUDA、拓扑、网卡和共享内存，再做 `nccl-tests`，结果会更可靠。
 
-如果只记一条经验，就是先从最小规模跑通，再逐步放大到单机多卡、双机多卡和全量集群。这样排障成本最低，也最符合生产环境里的实际节奏。
+如果只记一条经验，就是先从最小规模跑起来，再逐步放大到单机多卡、双机多卡和全量集群。这样排障成本最低，也更符合现场节奏。

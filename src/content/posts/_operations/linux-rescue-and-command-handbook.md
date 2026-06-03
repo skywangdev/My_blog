@@ -1,5 +1,5 @@
 ---
-title: "Linux 运维急救与常用命令笔记"
+title: "Linux 故障处理速查：重置 root 密码和常用命令"
 author: "Sky Wang"
 pubDatetime: 2020-08-03T12:00:00+08:00
 featured: false
@@ -8,7 +8,7 @@ tags:
   - Linux
   - CentOS
   - 运维
-description: "把 CentOS 7 重置 root 密码和常用 Linux 命令整理到一篇运维速查笔记里，适合故障处理和日常查阅。"
+description: "记录 CentOS 7 重置 root 密码的方法，以及排查磁盘、内存、进程、网络和日志时常用的 Linux 命令。"
 ---
 
 

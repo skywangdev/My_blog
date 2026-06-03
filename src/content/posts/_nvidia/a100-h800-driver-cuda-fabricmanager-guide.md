@@ -1,5 +1,5 @@
 ---
-title: "A100 与 H800 服务器安装 NVIDIA 驱动、CUDA 和 Fabric Manager 笔记"
+title: "A100/H800 装机记录：NVIDIA 驱动、CUDA 和 Fabric Manager"
 author: "Sky Wang"
 pubDatetime: 2023-09-18T10:20:00+08:00
 featured: true
@@ -9,7 +9,7 @@ tags:
   - NVIDIA
   - CUDA
   - GPU
-description: "记录 A100、H800 GPU 服务器从系统检查、驱动安装、CUDA 配置到 Fabric Manager 启动验证的基础流程。"
+description: "记录 A100、H800 服务器安装 NVIDIA 驱动、CUDA 和 Fabric Manager 时的检查步骤和常见验证命令。"
 ---
 
 这篇记录 GPU 服务器最基础的一步：把 A100、H800 节点装到 `nvidia-smi`、CUDA、Fabric Manager 都稳定可用。后面无论是跑训练、推理、容器集群，还是做压测，都要先把这一层打牢。

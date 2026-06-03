@@ -1,5 +1,5 @@
 ---
-title: "Linux 安装 NVIDIA 驱动、CUDA 与 Fabric Manager 笔记"
+title: "Linux 服务器安装 NVIDIA 驱动、CUDA 和 Fabric Manager"
 author: "Sky Wang"
 pubDatetime: 2021-04-13T12:00:00+08:00
 featured: false
@@ -8,7 +8,7 @@ tags:
   - Linux
   - NVIDIA
   - CUDA
-description: "整理 Linux 服务器安装 NVIDIA 驱动、CUDA 工具包和 nvidia-fabricmanager 的步骤，以及常见验证命令。"
+description: "记录 Linux 服务器安装 NVIDIA 驱动、CUDA Toolkit 和 nvidia-fabricmanager 的步骤，以及安装后常用的验证命令。"
 ---
 
 
