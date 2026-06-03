@@ -11,10 +11,6 @@ tags:
 description: "整理 Linux 服务器安装 NVIDIA 驱动、CUDA 工具包和 nvidia-fabricmanager 的步骤，以及常见验证命令。"
 ---
 
-<figure>
-  <img src="https://data.skywangdev.com/blog/S-3.jpeg" alt="Linux 安装 NVIDIA 驱动封面图" />
-  <figcaption class="text-center">GPU 服务器装驱动前，最重要的是确认内核、驱动版本和 CUDA 版本匹配。</figcaption>
-</figure>
 
 这篇笔记整理 Linux 服务器上安装 NVIDIA 驱动、CUDA 工具包和 Fabric Manager 的过程。旧文标题写的是 Ubuntu，但内容里也包含 AlmaLinux/RockyLinux 的命令，所以这里改成更通用的 Linux GPU 服务器笔记。
 

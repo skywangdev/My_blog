@@ -11,10 +11,6 @@ tags:
 description: "整理 iperf3 的安装、服务端和客户端测速命令、上传/下载/UDP 测试，以及如何阅读 SUM、receiver 和 Retr 结果。"
 ---
 
-<figure>
-  <img src="https://data.skywangdev.com/blog/S-10.jpeg" alt="iperf3 网络测速封面图" />
-  <figcaption class="text-center">iperf3 适合测试两台主机之间的网络吞吐，不等同于公网测速网站。</figcaption>
-</figure>
 
 iperf3 用来测试不同主机之间的网络连接速度。它需要一端作为服务端，另一端作为客户端发起测试。相比网页测速，iperf3 更适合排查服务器之间、机房之间、内网链路之间的吞吐问题。
 

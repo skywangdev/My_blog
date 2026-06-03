@@ -11,10 +11,6 @@ tags:
 description: "记录在 Ubuntu 20.04 上搭建 PXE 服务，用 DHCP、TFTP、Nginx 和 Kickstart 批量安装 RHEL、Kylin 等系统的过程。"
 ---
 
-<figure>
-  <img src="https://data.skywangdev.com/blog/S-4.jpeg" alt="PXE 自动安装 Linux 封面图" />
-  <figcaption class="text-center">PXE 适合批量安装服务器，核心是 DHCP 指路、TFTP 拉启动文件、HTTP 提供系统源和 Kickstart。</figcaption>
-</figure>
 
 这篇笔记基于 Ubuntu 20.04 搭建 PXE 环境，目标是批量安装 RHEL 7.9、RHEL 8.x、Kylin Server V10 等系统。旧文偏命令堆叠，这里补一层结构说明，方便以后复用。
 

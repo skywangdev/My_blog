@@ -11,13 +11,6 @@ tags:
 description: "整理 FFmpeg 常用命令，包括批量合并视频、H.264/H.265 压缩、硬件编码、裁剪、音视频合并、图片转换和音频循环。"
 ---
 
-<figure>
-  <img src="https://data.skywangdev.com/blog/S-9.jpeg" alt="FFmpeg 常用命令封面图" />
-  <figcaption class="text-center">FFmpeg 是处理音视频的瑞士军刀，日常最常用的是合并、压缩、裁剪和转码。</figcaption>
-</figure>
-
-这篇是旧 FFmpeg 笔记的整理版。原文里有一些 HTML 表格代码块，这里改成标准 Markdown 代码块，方便复制和阅读。
-
 ## Table of contents
 
 ## 合并一个文件夹内的所有视频

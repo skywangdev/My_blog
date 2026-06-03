@@ -11,10 +11,6 @@ tags:
 description: "把 RAID 基本概念、常见级别选择，以及 Dell 服务器上创建 RAID1 和 RAID5 的操作整理成一篇可查的实践笔记。"
 ---
 
-<figure>
-  <img src="https://data.skywangdev.com/blog/S-1.jpeg" alt="服务器 RAID 基础概念封面图" />
-  <figcaption class="text-center">RAID 的核心不是“备份”，而是在性能、容量和可用性之间做取舍。</figcaption>
-</figure>
 
 这篇是旧博客里两篇 RAID 笔记的合并版。一篇讲概念，一篇记录 Dell 服务器上的实际配置。单独看都偏碎，合在一起更适合日后查阅：先判断该用哪种 RAID，再进入 Dell 配置界面创建虚拟磁盘。
 

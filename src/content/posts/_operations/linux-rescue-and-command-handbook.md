@@ -11,10 +11,6 @@ tags:
 description: "把 CentOS 7 重置 root 密码和常用 Linux 命令整理到一篇运维速查笔记里，适合故障处理和日常查阅。"
 ---
 
-<figure>
-  <img src="https://data.skywangdev.com/blog/S-2.jpeg" alt="CentOS 7 重置 root 密码封面图" />
-  <figcaption class="text-center">CentOS 7 忘记 root 密码时，可以通过单用户模式重置。</figcaption>
-</figure>
 
 旧博客里有一篇 CentOS 7 重置 root 密码，还有一篇 Linux 命令大全。单独看一个太短，一个太散。这里合并成一篇更实用的速查笔记：前半部分处理“进不去系统”的急救场景，后半部分整理日常运维常用命令。
 
