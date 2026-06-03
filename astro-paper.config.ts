@@ -3,8 +3,8 @@ import { defineAstroPaperConfig } from "./src/types/config";
 export default defineAstroPaperConfig({
   site: {
     url: "https://blog.skywangdev.com/",
-    title: "我的博客",
-    description: "一个用 AstroPaper 搭建的中文博客。",
+    title: "SkyWang的博客",
+    description: "记录日常或者技术中文博客。涉及Linux、AI等",
     author: "Sky Wang",
     profile: "https://photo.skywangdev.com/",
     ogImage: "default-og.jpg",
@@ -26,17 +26,13 @@ export default defineAstroPaperConfig({
     search: "pagefind",
   },
   socials: [
-    { name: "github",   url: "https://github.com/satnaing/astro-paper" },
-    { name: "x",        url: "https://x.com/username" },
-    { name: "linkedin", url: "https://www.linkedin.com/in/username/" },
-    { name: "mail",     url: "mailto:yourmail@gmail.com" },
+    { name: "github",   url: "https://github.com/skywangdev" },
+    { name: "x",        url: "https://x.com/SkyWangTweets" },
+    //{ name: "linkedin", url: "https://www.linkedin.com/in/username/" },
+    { name: "mail",     url: "mailto:skywang@msn.com" },
   ],
   shareLinks: [
-    { name: "whatsapp", url: "https://wa.me/?text=" },
-    { name: "facebook", url: "https://www.facebook.com/sharer.php?u=" },
     { name: "x",        url: "https://x.com/intent/post?url=" },
-    { name: "telegram", url: "https://t.me/share/url?url=" },
-    { name: "pinterest", url: "https://pinterest.com/pin/create/button/?url=" },
     { name: "mail",     url: "mailto:?subject=See%20this%20post&body=" },
   ],
 });
