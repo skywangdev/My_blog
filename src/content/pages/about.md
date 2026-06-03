@@ -391,7 +391,7 @@ description: "关于 Sky Wang 和这个中文博客。"
 <span>Linux、网络、服务器和排障记录。</span>
 </div>
 <div class="about-stat">
-<strong>AI</strong>
+<strong>Tools</strong>
 <span>把工具真正接进日常工作流。</span>
 </div>
 <div class="about-stat">
@@ -455,7 +455,7 @@ description: "关于 Sky Wang 和这个中文博客。"
 <section class="about-section">
 <div class="about-section-head">
 <h2>本站设计取向</h2>
-<p class="about-section-note">保留轻量、快速和中文阅读优先。</p>
+<p class="about-section-note">保留轻量、快速和中文阅读优先。 By :SkyWang</p>
 </div>
 <div class="about-list">
 <div class="about-row">

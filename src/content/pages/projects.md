@@ -484,8 +484,8 @@ description: "一些正在维护和打磨的小项目。"
 <span>旅行、城市、日常与 EXIF 记录。</span>
 </div>
 <div class="project-stat">
-<strong>Astro</strong>
-<span>当前博客基于 AstroPaper 修改。</span>
+<strong>MacOS</strong>
+<span>在macOS/Linux下Dev。</span>
 </div>
 <div class="project-stat">
 <strong>Serverless</strong>
@@ -494,8 +494,8 @@ description: "一些正在维护和打磨的小项目。"
 </section>
 <section class="project-section">
 <div class="project-section-head">
-<h2>Featured</h2>
-<p class="project-section-note">主项目用更大的展示位，让访问者第一眼知道你在认真维护什么。</p>
+<h2>目前部署</h2>
+<p class="project-section-note">正式项目</p>
 </div>
 <div class="project-grid">
 <a class="project-card featured" href="https://photo.skywangdev.com/" target="_blank" rel="noreferrer">
@@ -513,28 +513,28 @@ description: "一些正在维护和打磨的小项目。"
 <span class="project-chip">Canon / Sony / iPhone</span>
 </div>
 </a>
-<a class="project-card" href="https://github.com/skywangdev/My_blog" target="_blank" rel="noreferrer">
+<a class="project-card" href="https://blog.skywangdev.com" target="_blank" rel="noreferrer">
 <div>
 <div class="project-card-top">
 <span class="project-label">Blog</span>
-<span class="project-status">Astro</span>
+<span class="project-status">SkyWang</span>
 </div>
 <h3>My_blog</h3>
 <p>这个中文博客本身也是一个长期项目：围绕写作、归档、搜索、中文阅读体验和轻量维护持续调整。</p>
 </div>
 <div class="project-meta">
-<span class="project-chip">Astro</span>
-<span class="project-chip">AstroPaper</span>
+<span class="project-chip">Docs</span>
+<span class="project-chip">Paper</span>
 </div>
 </a>
-<a class="project-card" href="https://github.com/skywangdev/serverless-qrcode-hub" target="_blank" rel="noreferrer">
+<a class="project-card" href="https://qr.skywangdev.com" target="_blank" rel="noreferrer">
 <div>
 <div class="project-card-top">
-<span class="project-label">Utility</span>
+<span class="project-label">已放弃维护</span>
 <span class="project-status">JavaScript</span>
 </div>
-<h3>serverless-qrcode-hub</h3>
-<p>用于生成长期可用的二维码，也可作为短链接服务使用，适合解决群聊二维码频繁变动的问题。</p>
+<h3>qrcode</h3>
+<p>用于生成长期可用的二维码，也可作为短链接服务使用，适合解决群聊二维码到期的问题。<em><small>注：因为微信二维码规则变了，没精力时间维护故放弃 PS:2026.2.1</em></small></p>
 </div>
 <div class="project-meta">
 <span class="project-chip">Serverless</span>
@@ -546,58 +546,59 @@ description: "一些正在维护和打磨的小项目。"
 </section>
 <section class="project-section">
 <div class="project-section-head">
-<h2>GitHub Lab</h2>
-<p class="project-section-note">更偏实验和工具的小项目，保留简洁卡片，方便后续继续替换或扩展。</p>
+<h2>GitHub Repo</h2>
+<p class="project-section-note">更偏实验和工具的小项目</p>
 </div>
 <div class="project-grid">
-<a class="project-card" href="https://github.com/skywangdev/avatar-gallery" target="_blank" rel="noreferrer">
+<a class="project-card" href="https://qq.skywangdev.com" target="_blank" rel="noreferrer">
 <div>
 <div class="project-card-top">
-<span class="project-label">Gallery</span>
+<span class="project-label">像素风头像</span>
 <span class="project-status">TypeScript</span>
 </div>
-<h3>avatar-gallery</h3>
-<p>头像和图片展示相关的小项目，适合继续扩展成个人视觉资产库。</p>
+<h3>像素风QQ头像</h3>
+<p>头像和图片展示相关的小项目，重构了2019年像素风的QQ头像。支持静态和动态。且转了动态展示。可以用于表情。</p>
 </div>
 <div class="project-meta">
 <span class="project-chip">TypeScript</span>
-<span class="project-chip">Gallery</span>
+<span class="project-chip">头像</span>
 </div>
 </a>
-<a class="project-card" href="https://github.com/skywangdev/bark-worker" target="_blank" rel="noreferrer">
+<a class="project-card" href="https://bark.skywangdev.com" target="_blank" rel="noreferrer">
 <div>
 <div class="project-card-top">
-<span class="project-label">Notification</span>
+<span class="project-label">自用</span>
 <span class="project-status">JavaScript</span>
 </div>
 <h3>bark-worker</h3>
-<p>围绕 Bark 推送和 Worker 部署的轻量服务，偏向简单、直接、可长期运行的小工具。</p>
+<p>围绕 Bark 推送和 Worker 部署的轻量服务，基于Cloudflare自建。减少维护。</p>
 </div>
 <div class="project-meta">
 <span class="project-chip">Worker</span>
 <span class="project-chip">Bark</span>
 </div>
 </a>
-<a class="project-card" href="https://github.com/skywangdev/serverless-markdown-convertor" target="_blank" rel="noreferrer">
+<a class="project-card" href="https://mdcover.skywangdev.com" target="_blank" rel="noreferrer">
 <div>
 <div class="project-card-top">
-<span class="project-label">Convertor</span>
+<span class="project-label">cover</span>
 <span class="project-status">HTML</span>
 </div>
-<h3>serverless-markdown-convertor</h3>
-<p>Markdown Conversion 工具，适合处理内容格式转换和轻量文本工作流。</p>
+<h3>文件转换</h3>
+<p>轻量级转换工具。在浏览器内处理。不传入云端，适合隐私处理内容格式转换。支持 PDF、图片、HTML、XML、Microsoft Office文档、CSV、Apple Numbers等</p>
 </div>
 <div class="project-meta">
 <span class="project-chip">Markdown</span>
 <span class="project-chip">Serverless</span>
 </div>
 </a>
-<a class="project-card" href="https://github.com/skywangdev/fuclaude-switcher" target="_blank" rel="noreferrer">
+<!-- <a class="project-card" href="https://github.com/skywangdev/fuclaude-switcher" target="_blank" rel="noreferrer">
 <div>
 <div class="project-card-top">
 <span class="project-label">AI Tool</span>
-<span class="project-status">JavaScript</span>
+<span class="project-status">Node</span>
 </div>
+<h3>fuclaude-switcher</h3>
 <h3>fuclaude-switcher</h3>
 <p>简洁优雅的 FuClaude 工具，属于个人 AI 工作流里的效率型实验。</p>
 </div>
@@ -605,29 +606,30 @@ description: "一些正在维护和打磨的小项目。"
 <span class="project-chip">AI</span>
 <span class="project-chip">Tooling</span>
 </div>
-</a>
+</a> -->
 </div>
 </section>
 <section class="project-section">
 <div class="project-section-head">
-<h2>Direction</h2>
-<p class="project-section-note">后续可以继续补充截图、技术栈、部署方式和复盘文章。</p>
+<h2>待续</h2>
+<!-- <p class="project-section-note">后续可以继续补充截图、技术栈、部署方式和复盘文章。</p> -->
 </div>
 <div class="project-timeline">
 <div class="project-row">
-<span>Now</span>
+<span>当前</span>
 <strong>先把可访问的项目集中展示出来</strong>
-<a href="https://github.com/skywangdev" target="_blank" rel="noreferrer">GitHub</a>
+<a>已完成</a>
+<!-- <a href="https://github.com/skywangdev" target="_blank" rel="noreferrer">GitHub</a> -->
 </div>
 <div class="project-row">
-<span>Next</span>
-<strong>为重点项目补充截图、技术栈和架构说明</strong>
-<a href="https://photo.skywangdev.com/" target="_blank" rel="noreferrer">Photo</a>
+<span>下一步</span>
+<strong>重构部分文章或项目</strong>
+<a>正在进行中</a>
 </div>
 <div class="project-row">
-<span>Later</span>
+<span>未来</span>
 <strong>把成熟项目写成文章，沉淀成长期维护记录</strong>
-<a href="/posts">Posts</a>
+<a>未开始</a>
 </div>
 </div>
 </section>
