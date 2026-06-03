@@ -1,5 +1,5 @@
 ---
-title: "深圳旅行攻略：港澳前后中转、城市景点和本地美食笔记"
+title: "深圳旅行记录"
 author: "Sky Wang"
 pubDatetime: 2025-07-20T10:30:00+08:00
 featured: false

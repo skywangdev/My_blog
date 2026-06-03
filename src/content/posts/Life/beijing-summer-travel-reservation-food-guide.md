@@ -1,5 +1,5 @@
 ---
-title: "北京夏天旅行攻略：景点预约、路线安排和本地美食笔记"
+title: "北京夏天旅行攻略美食记录"
 author: "Sky Wang"
 pubDatetime: 2025-06-18T09:30:00+08:00
 featured: false

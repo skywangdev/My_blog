@@ -1,5 +1,5 @@
 ---
-title: "香港澳门五日旅行攻略：景点安排、预约提醒和本地美食笔记"
+title: "香港澳门旅行笔记"
 author: "Sky Wang"
 pubDatetime: 2025-07-12T11:00:00+08:00
 featured: false
