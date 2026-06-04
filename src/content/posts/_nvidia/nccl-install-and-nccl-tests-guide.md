@@ -48,6 +48,8 @@ NCCL 是 NVIDIA 的多 GPU 集合通信库，支持：
 - 多机测试时，MPI 已安装。
 - 如果走 IB/RDMA，网卡驱动、OFED 或 RDMA 栈已安装，且现场网络本身可通。
 
+补一句容易混淆的：`nvidia-smi` 顶部的 `CUDA Version` 表示驱动最高支持的 CUDA runtime 能力，不等于宿主机已经安装了这个版本的 CUDA Toolkit。NCCL 编译时真正要看的还是 `nvcc -V`、`CUDA_HOME` 和链接到的 NCCL 库。
+
 先看几条最基础的信息：
 
 ```bash
@@ -69,7 +71,7 @@ NVIDIA 官方安装文档把 NCCL 安装分成三类：
 
 这里的重点不是死记版本号，而是记住两条原则：
 
-- NCCL 版本要和你当前 CUDA 版本、驱动分支匹配。
+- NCCL 包要选择匹配当前 CUDA 版本的构建，并确保驱动分支满足这个 CUDA runtime 的最低要求。
 - 如果只是运行上层训练框架，很多时候容器里已经自带 NCCL；但如果你要编译 `nccl-tests`，通常还需要安装开发包。
 
 ### 1. Ubuntu 安装
@@ -340,7 +342,7 @@ mpirun -np 16 -N 8 \
 
 - `NCCL_IB_HCA=mlx5` 是前缀匹配，不一定要写到具体端口。
 - 更精确时可以写成 `=mlx5_0:1,mlx5_1:1` 这种形式。
-- 按官方 Troubleshooting 文档，`NCCL 2.21` 及以后版本会动态选择 GID index，通常不需要手工设置 `NCCL_IB_GID_INDEX`。
+- 按官方 Troubleshooting 文档，NCCL 2.21 及以后版本会动态选择 GID index，通常不需要手工设置 `NCCL_IB_GID_INDEX`。
 - 如果你用的是更老版本，或厂商网络方案明确要求手工指定，再去执行 `show_gids` 并按现场结果设置。
 
 ### 2. 多网卡环境
@@ -357,25 +359,26 @@ mpirun -np 16 -N 8 \
 
 官方 User Guide 的环境变量章节很全，但现场不用一次记完。先把最常用的一批掌握住就够了。
 
-| 变量 | 作用 | 常见用法 |
-| --- | --- | --- |
-| `NCCL_DEBUG` | 控制日志级别 | `WARN`、`INFO` |
-| `NCCL_DEBUG_SUBSYS` | 过滤 `INFO` 日志子系统 | `INIT,BOOTSTRAP,ENV` 或 `NET` |
-| `NCCL_DEBUG_FILE` | 把日志写到文件 | `NCCL_DEBUG_FILE=nccl.%h.%p.log` |
-| `NCCL_SOCKET_IFNAME` | 指定 IP 通信网卡 | `=eth0`、`ib`、`^docker` |
-| `NCCL_SOCKET_FAMILY` | 强制 IPv4 或 IPv6 | `AF_INET` |
-| `NCCL_IB_DISABLE` | 禁用或启用 IB Verbs | `0` 或 `1` |
-| `NCCL_IB_HCA` | 指定 RDMA 网卡 | `mlx5`、`=mlx5_0:1` |
-| `NCCL_IB_GID_INDEX` | 指定 GID index | 依现场配置决定 |
-| `NCCL_SOCKET_NTHREADS` | socket helper 线程数 | 100G 网络常见会试 `4` |
-| `NCCL_NSOCKS_PERTHREAD` | 每线程 socket 数 | 100G 网络常见会试 `4` |
-| `NCCL_CROSS_NIC` | 多 NIC 选择策略 | `0`、`1`、`2` |
-| `NCCL_IGNORE_CPU_AFFINITY` | 忽略作业的 CPU 绑核 | `1` |
+| 变量                       | 作用                   | 常见用法                         |
+| -------------------------- | ---------------------- | -------------------------------- |
+| `NCCL_DEBUG`               | 控制日志级别           | `WARN`、`INFO`                   |
+| `NCCL_DEBUG_SUBSYS`        | 过滤 `INFO` 日志子系统 | `INIT,BOOTSTRAP,ENV` 或 `NET`    |
+| `NCCL_DEBUG_FILE`          | 把日志写到文件         | `NCCL_DEBUG_FILE=nccl.%h.%p.log` |
+| `NCCL_SOCKET_IFNAME`       | 指定 IP 通信网卡       | `=eth0`、`ib`、`^docker`         |
+| `NCCL_SOCKET_FAMILY`       | 强制 IPv4 或 IPv6      | `AF_INET`                        |
+| `NCCL_IB_DISABLE`          | 禁用或启用 IB Verbs    | `0` 或 `1`                       |
+| `NCCL_IB_HCA`              | 指定 RDMA 网卡         | `mlx5`、`=mlx5_0:1`              |
+| `NCCL_IB_GID_INDEX`        | 指定 RoCE GID index    | 老版本或现场要求时再设           |
+| `NCCL_SOCKET_NTHREADS`     | socket helper 线程数   | 100G 网络常见会试 `4`            |
+| `NCCL_NSOCKS_PERTHREAD`    | 每线程 socket 数       | 100G 网络常见会试 `4`            |
+| `NCCL_CROSS_NIC`           | 多 NIC 选择策略        | `0`、`1`、`2`                    |
+| `NCCL_IGNORE_CPU_AFFINITY` | 忽略作业的 CPU 绑核    | `1`                              |
 
 几个实践要点：
 
 - `NCCL_SOCKET_IFNAME` 支持前缀匹配、排除匹配和精确匹配。
 - 默认情况下，`lo` 和 `docker*` 不会优先被选中。
+- `NCCL_SOCKET_NTHREADS * NCCL_NSOCKS_PERTHREAD` 不能超过 64，提高它们可能改善 socket 性能，也会增加 CPU 开销。
 - 官方文档明确提醒，很多调试类变量不要长期固化到生产环境里。
 
 ### 1. 静态配置文件
@@ -393,6 +396,8 @@ mpirun -np 16 -N 8 \
 ```bash
 export NCCL_CONF_FILE=/path/to/custom-nccl.conf
 ```
+
+`NCCL_CONF_FILE` 是 NCCL 2.23 开始支持的自定义配置文件入口；老版本还是用 `/etc/nccl.conf` 或临时环境变量。
 
 示例：
 
@@ -417,6 +422,8 @@ docker run --gpus all --rm -it \
   --ulimit memlock=-1 \
   <image> /bin/bash
 ```
+
+NCCL 2.24 开始在满足 CUDA driver/runtime 条件时默认优先使用 cuMem host allocations；但老版本、容器 NUMA 能力不足或虚拟化场景仍可能回到 `/dev/shm` 这条路径。现场排查时还是建议把 `/dev/shm` 和 `memlock` 一起看。
 
 如果容器里跑多机压测，还要额外确认：
 
@@ -475,7 +482,7 @@ ibdev2netdev
 lsmod | grep -E 'nvidia_peermem|nv_peer_mem'
 ```
 
-NVIDIA 文档在 Troubleshooting 里提到，GPUDirect RDMA 依赖兼容的网卡驱动和额外内核模块 `nvidia-peermem`。如果这层缺失，多机通信可能退化到更慢的路径。
+NVIDIA 文档在 Troubleshooting 里提到，GPUDirect RDMA 依赖兼容的网卡驱动和额外内核模块 `nvidia-peermem`。如果系统满足 DMA-BUF 路径要求，NCCL 可以自动检测并启用 DMA-BUF，这时不一定需要 `nvidia-peermem`；否则缺这层时，多机通信可能退化到更慢路径。
 
 ### 4. 容器或虚拟机里拓扑识别异常
 

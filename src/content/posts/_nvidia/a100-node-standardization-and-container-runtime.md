@@ -59,8 +59,10 @@ nvidia-smi topo -m
 检查驱动：
 
 ```bash
-nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv
+nvidia-smi --query-gpu=index,name,driver_version,memory.total --format=csv
 ```
+
+`nvidia-smi` 顶部的 `CUDA Version` 不等于宿主机安装的 CUDA Toolkit 版本。它表示当前驱动最高支持到哪个 CUDA runtime 能力；真正的 Toolkit 版本要看 `nvcc -V`、包管理器记录，或者容器镜像 tag。
 
 检查 Fabric Manager：
 
@@ -69,7 +71,7 @@ systemctl is-active nvidia-fabricmanager
 systemctl status nvidia-fabricmanager --no-pager
 ```
 
-如果 Fabric Manager 状态不正常，先不要把节点加入训练池。多卡通信问题很容易在这里埋雷。
+Fabric Manager 主要用于带 NVSwitch 的平台，比如 HGX A100、HGX H100/H800 这类 SXM 机器。PCIe 卡形态的服务器通常不需要它，验收时不要机械套用。需要 Fabric Manager 的机器，服务状态不正常就先不要加入训练池，多卡通信问题很容易在这里埋雷。
 
 ## 四、安装 Docker
 
@@ -105,11 +107,10 @@ docker version
 Ubuntu 示例：
 
 ```bash
-distribution=$(. /etc/os-release; echo $ID$VERSION_ID)
 curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
   | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
 
-curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list \
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list \
   | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
   > /etc/apt/sources.list.d/nvidia-container-toolkit.list
 
@@ -117,12 +118,16 @@ apt update
 apt install -y nvidia-container-toolkit
 ```
 
+这里用的是 NVIDIA 官方文档当前推荐的 `stable/deb` 仓库路径。老文章里常见的 `$distribution/libnvidia-container.list` 写法在一些新系统上容易失效，批量装机时建议固定一套经过验证的 Toolkit 版本。
+
 配置 Docker 运行时：
 
 ```bash
 nvidia-ctk runtime configure --runtime=docker
 systemctl restart docker
 ```
+
+`nvidia-ctk` 会修改宿主机的 `/etc/docker/daemon.json`。如果这台机器已有业务自定义 Docker 配置，先备份再改，避免把 registry mirror、日志驱动之类配置覆盖掉。
 
 验证：
 
@@ -199,3 +204,9 @@ bash gpu-node-check.sh
 ## 小结
 
 A100 节点标准化的价值在于减少变量。驱动和容器运行时不是一次性安装动作，而是后续集群稳定性的基础。越早把节点状态统一，后面排查训练任务越轻松。
+
+## 参考资料
+
+- [NVIDIA Container Toolkit Installation Guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+- [NVIDIA Fabric Manager User Guide](https://docs.nvidia.com/datacenter/tesla/fabric-manager-user-guide/index.html)
+- [CUDA Compatibility](https://docs.nvidia.com/deploy/cuda-compatibility/)

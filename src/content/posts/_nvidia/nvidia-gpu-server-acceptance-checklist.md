@@ -45,26 +45,26 @@ nvidia-smi topo -m
 
 常见标记：
 
-| 标记 | 含义 |
-| --- | --- |
-| `NV#` | 通过 NVLink 连接 |
+| 标记  | 含义               |
+| ----- | ------------------ |
+| `NV#` | 通过 NVLink 连接   |
 | `PIX` | 同一个 PCIe switch |
-| `PXB` | 跨 PCIe bridge |
+| `PXB` | 跨 PCIe bridge     |
 | `PHB` | 跨 CPU host bridge |
-| `SYS` | 跨 CPU socket |
+| `SYS` | 跨 CPU socket      |
 
 A100、H800 这类机器如果预期有 NVLink/NVSwitch，但拓扑看不到，先不要继续压测。
 
 ## 三、检查 Fabric Manager
 
-SXM 形态的 A100/H800 常常需要 Fabric Manager。检查：
+带 NVSwitch 的 A100/H800 SXM 平台需要重点检查 Fabric Manager。PCIe 卡形态机器通常不需要它，不要为了“清单完整”硬装。检查：
 
 ```bash
 systemctl status nvidia-fabricmanager
 nvidia-smi topo -m
 ```
 
-如果 Fabric Manager 没启动，单卡可能正常，多卡通信会出问题。
+如果 Fabric Manager 没启动，单卡可能正常，多卡通信会出问题。Fabric Manager 包版本也要和驱动栈匹配，至少保持在同一驱动分支内。
 
 ## 四、检查 CUDA
 
@@ -110,7 +110,7 @@ dcgmi diag -r 1
 dcgmi diag -r 2
 ```
 
-`-r 1` 偏快速检查，`-r 2` 更深入。正式交付前可以按项目要求跑更长测试。
+官方 run level 里 `-r 1` 是 Quick，`-r 2` 是 Medium，`-r 3` 是 Long，`-r 4` 是 Extended。`-r 1` 适合快速巡检，正式交付或疑难排查可以按窗口期跑更长等级，但不要和业务负载混跑。
 
 ## 七、跑 NCCL Tests
 
@@ -158,3 +158,10 @@ docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi
 ## 十、小结
 
 GPU 服务器验收要分层看：硬件识别、驱动、CUDA、拓扑、Fabric Manager、日志、容器和通信测试。每层都正常，交付结果才更可靠。
+
+## 参考资料
+
+- [NVIDIA Fabric Manager User Guide](https://docs.nvidia.com/datacenter/tesla/fabric-manager-user-guide/index.html)
+- [NVIDIA DCGM Diagnostics](https://docs.nvidia.com/datacenter/dcgm/latest/user-guide/dcgm-diagnostics.html)
+- [NVIDIA NCCL Troubleshooting](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting.html)
+- [NVIDIA Container Toolkit Installation Guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)

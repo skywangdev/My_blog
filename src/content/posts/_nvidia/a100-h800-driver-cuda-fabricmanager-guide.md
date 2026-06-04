@@ -114,6 +114,8 @@ lsmod | grep nouveau
 
 A100、H800 这类数据中心 GPU 建议选择数据中心驱动分支，并提前确认驱动和 CUDA 版本兼容。
 
+注意，`nvidia-smi` 顶部显示的 `CUDA Version` 不是本机安装的 CUDA Toolkit 版本，而是当前驱动最高支持的 CUDA runtime 能力。Toolkit 版本看 `nvcc -V` 或包管理器，容器任务则看镜像里的 CUDA runtime。
+
 如果使用 `.run` 包：
 
 ```bash
@@ -167,7 +169,9 @@ nvcc -V
 
 ## 六、安装 Fabric Manager
 
-A100 SXM、H800 SXM 这类带 NVSwitch/NVLink 拓扑的服务器，需要 Fabric Manager。它的版本必须和驱动主版本匹配。
+A100 SXM、H800 SXM 这类带 NVSwitch 的服务器需要 Fabric Manager。更准确地说，Fabric Manager 是给 NVSwitch/NVLink fabric 做初始化和管理的；普通 PCIe 卡形态机器通常不需要安装它。
+
+Fabric Manager 版本要和驱动栈匹配，至少要在同一驱动分支内选择对应包。现场不要只看包名“差不多”，建议用驱动版本反查发行仓库里的 `nvidia-fabricmanager` 对应版本。
 
 查看驱动版本：
 
@@ -194,13 +198,13 @@ nvidia-smi topo -m
 
 常见标记：
 
-| 标记 | 含义 |
-| --- | --- |
-| `NV#` | 通过 NVLink 连接 |
+| 标记  | 含义               |
+| ----- | ------------------ |
+| `NV#` | 通过 NVLink 连接   |
 | `PIX` | 同一个 PCIe switch |
-| `PXB` | 跨 PCIe bridge |
+| `PXB` | 跨 PCIe bridge     |
 | `PHB` | 跨 CPU host bridge |
-| `SYS` | 跨 CPU socket |
+| `SYS` | 跨 CPU socket      |
 
 A100/H800 多卡服务器里，拓扑直接影响训练通信效率。后面做 NCCL 压测时，要结合拓扑一起看。
 
@@ -225,3 +229,9 @@ docker run --rm --gpus all nvidia/cuda:12.1.1-base-ubuntu22.04 nvidia-smi
 ## 小结
 
 GPU 集群部署的第一层不是 Kubernetes，也不是训练框架，而是每台机器的驱动、CUDA、Fabric Manager 和拓扑状态。单机状态不稳定，后面所有集群问题都会被放大。
+
+## 参考资料
+
+- [NVIDIA Fabric Manager User Guide](https://docs.nvidia.com/datacenter/tesla/fabric-manager-user-guide/index.html)
+- [CUDA Compatibility](https://docs.nvidia.com/deploy/cuda-compatibility/)
+- [NVIDIA Container Toolkit Installation Guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)

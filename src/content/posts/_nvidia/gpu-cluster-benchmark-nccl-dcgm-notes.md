@@ -46,13 +46,13 @@ nvidia-smi dmon -s pucvmet -d 1
 
 字段大致含义：
 
-| 字段 | 说明 |
-| --- | --- |
-| `pwr` | 功耗 |
-| `gtemp` | GPU 温度 |
-| `mtemp` | 显存温度 |
-| `sm` | SM 利用率 |
-| `mem` | 显存利用率 |
+| 字段      | 说明         |
+| --------- | ------------ |
+| `pwr`     | 功耗         |
+| `gtemp`   | GPU 温度     |
+| `mtemp`   | 显存温度     |
+| `sm`      | SM 利用率    |
+| `mem`     | 显存利用率   |
 | `enc/dec` | 编解码利用率 |
 
 压测时要同时看温度、功耗和错误，不要只看利用率。
@@ -80,7 +80,7 @@ dcgmi diag -r 1
 dcgmi diag -r 2
 ```
 
-`-r 1` 偏快速检查，`-r 2` 更深入。正式交付前可以用更长时间的诊断，但要注意它会占用 GPU。
+官方文档里 `-r` 是诊断 run level：`1` 是 Quick，`2` 是 Medium，`3` 是 Long，`4` 是 Extended。日常巡检常用 `-r 1`，交付或疑难排查再跑 `-r 2` 或更长等级。诊断会占用 GPU，不要和业务任务混跑。
 
 ## 四、单机 CUDA 样例测试
 
@@ -164,10 +164,9 @@ mpirun -np 16 \
 ```bash
 export NCCL_IB_DISABLE=0
 export NCCL_IB_HCA=mlx5
-export NCCL_IB_GID_INDEX=3
 ```
 
-不要盲目复制变量。不同集群的网卡名、GID index、路由策略都可能不同。
+不要盲目复制变量。`NCCL_IB_HCA=mlx5` 是前缀匹配，现场也可以精确到 `=mlx5_0:1` 这种设备和端口。RoCE 场景里老版本 NCCL 可能要手工设 `NCCL_IB_GID_INDEX`，但 NCCL 2.21 及以后已经支持动态选择 GID index，通常先不要固定，除非网络方案或日志明确要求。
 
 ## 八、压测时同步采集
 
@@ -243,3 +242,10 @@ benchmark/
 ## 小结
 
 GPU 集群压测的核心是建立基线。先确认单机，再确认多机；先看是否稳定，再看性能数字。没有日志和环境信息的压测结果，很难用于后续排障。
+
+## 参考资料
+
+- [NVIDIA DCGM Diagnostics](https://docs.nvidia.com/datacenter/dcgm/latest/user-guide/dcgm-diagnostics.html)
+- [NVIDIA NCCL Environment Variables](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html)
+- [NVIDIA NCCL Troubleshooting](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting.html)
+- [NVIDIA nccl-tests](https://github.com/NVIDIA/nccl-tests)

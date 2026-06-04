@@ -41,6 +41,8 @@ nvidia-smi topo -m
 systemctl status nvidia-fabricmanager --no-pager
 ```
 
+H800 常见是 HGX/SXM + NVSwitch 形态，这类机器要特别确认 Fabric Manager。它不是普通守护进程那么简单，而是 NVSwitch fabric 初始化和管理链路的一部分；如果服务异常，单卡 `nvidia-smi` 可能还能看起来正常，但多卡通信会埋雷。
+
 建议把输出保存下来：
 
 ```bash
@@ -119,17 +121,18 @@ NCCL 变量不要一开始就堆很多。先从最少变量开始，确认能跑
 ```bash
 export NCCL_DEBUG=INFO
 export NCCL_IB_DISABLE=0
-export NCCL_SOCKET_IFNAME=eth0
+export NCCL_SOCKET_IFNAME='=eth0'
 ```
 
-如果是 IB/RDMA 网络，需要确认实际网卡名和 GID index。RoCE 环境常见：
+`NCCL_SOCKET_IFNAME` 支持前缀、排除和精确匹配。这里写 `=eth0` 是精确匹配示例，不是推荐所有集群都叫这个名字；实际要按训练网络接口来填，比如 `=bond0`、`=ib0` 或 `^docker` 这类写法。
+
+如果是 IB/RDMA 网络，需要确认实际 HCA 名和端口。RoCE 环境里有时还会涉及 GID index，但不要默认写死：
 
 ```bash
-export NCCL_IB_GID_INDEX=3
 export NCCL_IB_HCA=mlx5
 ```
 
-这些值不要照抄，要根据现场环境确认。
+这些值不要照抄，要根据现场环境确认。`NCCL_IB_HCA=mlx5` 是前缀匹配；需要精确控制时可以写成 `=mlx5_0:1,mlx5_1:1`。NCCL 2.21 及以后通常会动态选择 GID index，只有老版本或网络方案明确要求时，再用 `show_gids` 之类工具确认后设置 `NCCL_IB_GID_INDEX`。
 
 ## 六、单机 NCCL 测试
 
@@ -157,7 +160,7 @@ make MPI=0 CUDA_HOME=/usr/local/cuda
 mpirun -np 16 \
   -H node01:8,node02:8 \
   -x NCCL_DEBUG=INFO \
-  -x NCCL_SOCKET_IFNAME=eth0 \
+  -x NCCL_SOCKET_IFNAME='=eth0' \
   ./build/all_reduce_perf -b 8M -e 16G -f 2 -g 1
 ```
 
@@ -168,7 +171,6 @@ mpirun -np 16 \
   -H node01:8,node02:8 \
   -x NCCL_DEBUG=INFO \
   -x NCCL_IB_DISABLE=0 \
-  -x NCCL_IB_GID_INDEX=3 \
   -x NCCL_IB_HCA=mlx5 \
   ./build/all_reduce_perf -b 8M -e 16G -f 2 -g 1
 ```
@@ -191,3 +193,10 @@ mpirun -np 16 \
 ## 小结
 
 H800 集群部署要把节点、网络、容器和 NCCL 放在同一条链路里验证。只验证单机 GPU 不够，只验证网络也不够。真正可靠的判断，是单机、多机、容器和调度链路都能跑通。
+
+## 参考资料
+
+- [NVIDIA Fabric Manager User Guide](https://docs.nvidia.com/datacenter/tesla/fabric-manager-user-guide/index.html)
+- [NVIDIA NCCL Environment Variables](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html)
+- [NVIDIA NCCL Troubleshooting](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting.html)
+- [NVIDIA Container Toolkit Installation Guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
