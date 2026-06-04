@@ -464,7 +464,7 @@ description: "关于 Sky Wang 和这个中文博客。"
 </div>
 <div class="about-row">
 <span>Typography</span>
-<strong>中文正文使用霞鹜文楷，让技术内容也有更温和的阅读节奏。</strong>
+<strong>通过舒适的排版与留白，让技术内容更易于阅读。</strong>
 </div>
 <div class="about-row">
 <span>Structure</span>
