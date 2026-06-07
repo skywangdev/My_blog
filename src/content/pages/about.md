@@ -377,7 +377,7 @@ description: "关于 Sky Wang 和这个中文博客。"
 <div class="about-hero-content">
 <p class="about-kicker">About Sky Wang</p>
 <h2 class="about-title">记录、实践，然后继续向前</h2>
-<p class="about-lead">你好，我是 Sky Wang。这个博客是我的长期工作台，用来整理 Linux、服务器、AI 工具、自动化实践，也放一些摄影、阅读和日常思考。写作对我来说不是展示成果，而是把踩过的坑、验证过的方法和正在形成的判断留下来。</p>
+<p class="about-lead">你好，我是 Sky Wang。这个博客是我的长期记录，用来整理 Linux、服务器、一些问题、实践过程，也放一些摄影、阅读和日常思考。写博客对我来说不是展示成果，而是把踩过的坑、验证过的方法和正在形成的判断留下来。</p>
 <div class="about-actions">
 <a class="about-button primary" href="/posts">阅读文章</a>
 <a class="about-button" href="/projects">查看项目</a>
