@@ -1,5 +1,5 @@
 ---
-title: "服务器交付前检查清单：硬件、系统、网络和 GPU"
+title: "服务器交付前检查清单"
 author: "Sky Wang"
 pubDatetime: 2023-02-18T09:30:00+08:00
 featured: true

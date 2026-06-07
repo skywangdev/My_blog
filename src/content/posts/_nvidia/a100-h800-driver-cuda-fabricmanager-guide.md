@@ -1,5 +1,5 @@
 ---
-title: "A100/H800 装机记录：NVIDIA 驱动、CUDA 和 Fabric Manager"
+title: "A100/H800 装机记录：从NVIDIA 驱动、CUDA到Fabric Manager"
 author: "Sky Wang"
 pubDatetime: 2023-09-18T10:20:00+08:00
 featured: true

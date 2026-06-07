@@ -1,5 +1,5 @@
 ---
-title: "GPU 服务器交付前验收：驱动、CUDA、拓扑和压测"
+title: "GPU 服务器交付前验收记录"
 author: "Sky Wang"
 pubDatetime: 2024-01-20T10:10:00+08:00
 featured: true
