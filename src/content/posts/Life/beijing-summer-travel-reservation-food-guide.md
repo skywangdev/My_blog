@@ -3,7 +3,7 @@ title: "北京夏天旅行记录：预约、路线和吃什么"
 author: "Sky Wang"
 pubDatetime: 2025-06-18T09:30:00+08:00
 featured: false
-draft: false
+draft: true
 tags:
   - 旅行
   - 北京
